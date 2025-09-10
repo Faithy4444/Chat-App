@@ -10,15 +10,12 @@ app.use(express.json());
 const messages = [
     {
         name: "Faith",
-        message: "Hi how are you?"
-        
+        message: "Hi how are you?"  
     },
      {
         name: "Fortunate",
         message: "I am okay"
-        
-    }
-    
+    } 
 ]
 
 app.get("/",(req, res)=>{
