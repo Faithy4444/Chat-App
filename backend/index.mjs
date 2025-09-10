@@ -7,16 +7,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 
 app.use(express.json());
-const messages = [
-    {
-        name: "Faith",
-        message: "Hi how are you?"  
-    },
-     {
-        name: "Fortunate",
-        message: "I am okay"
-    } 
-]
+const messages = []
 
 app.get("/",(req, res)=>{
     res.json(messages);
