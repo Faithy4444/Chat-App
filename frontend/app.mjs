@@ -1,6 +1,8 @@
 
 const messageForm = document.getElementById("messageForm")
-const apiUrl = "http://127.0.0.1:3000"
+const apiUrl = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://127.0.0.1:3000'
+    : "https://chatappbackend.hosting.codeyourfuture.io";
 
 const fetchMessages = async()=>{
 try{
