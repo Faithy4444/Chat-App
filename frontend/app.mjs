@@ -61,3 +61,5 @@ messageForm.addEventListener("submit", async(e)=>{
     }
 
 })
+
+window.addEventListener("DOMContentLoaded", fetchMessages);
