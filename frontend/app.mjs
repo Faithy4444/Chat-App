@@ -62,4 +62,9 @@ messageForm.addEventListener("submit", async(e)=>{
 
 })
 
-window.addEventListener("DOMContentLoaded", fetchMessages);
+window.addEventListener("DOMContentLoaded", ()=>{
+    fetchMessages();
+    setInterval(fetchMessages, 10000)
+
+
+});
