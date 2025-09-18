@@ -6,8 +6,17 @@ const apiUrl = location.hostname === 'localhost' || location.hostname === '127.0
 
 const fetchMessages = async()=>{
 try{
-    const response = await fetch(apiUrl);
+    const lastMessageTime =state.messages.length > 0
+    ?state.messages[state.messages.length - 1].timestamp
+    :null;
+
+    const queryString = lastMessageTime ? `?since=${lastMessageTime}` :"";
+    const url = `${apiUrl}/messages${queryString}`;
+
+    const response = await fetch(url);
     const data = await response.json();
+
+    state.messages.push(...data)
     renderMessages(data)
 }catch(error){
     console.log("Failed to fetch messages:", error);
@@ -64,7 +73,7 @@ messageForm.addEventListener("submit", async(e)=>{
 
 window.addEventListener("DOMContentLoaded", ()=>{
     fetchMessages();
-    setInterval(fetchMessages, 10000)
+    setInterval(fetchMessages, 100)
 
 
 });
