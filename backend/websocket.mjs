@@ -1,6 +1,10 @@
 import express from "express";
 import http from "http";
-import { client, server as WebSocketServer } from "websocket";
+import pkg from "websocket";
+const { client, server: WebSocketServer } = pkg;
+
+// now you can use WebSocketServer and client as before
+
 import { addMessage, getMessages } from "./messages.mjs"
 
 const app = express();
