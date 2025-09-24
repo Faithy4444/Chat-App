@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Chat App</h1>
+    <div id="messages-container">
+        <div id="messages"></div>
+    </div>
+    <form id="messageForm">
+        <input placeholder="What is your name?" id="name" name="name" required>
+        <input placeholder="type message here" id="messageInput" name="messageInput" required>
+        <button id="sendBtn">Send</button>
+    </form>
+   <script src="websocket-client.mjs" type="module"></script> 
+</body>
+</html>
