@@ -4,6 +4,10 @@ const apiUrl = location.hostname === 'localhost' || location.hostname === '127.0
     ? 'http://127.0.0.1:3000'
     : "https://chatappbackend.hosting.codeyourfuture.io";
 
+const state = {
+  messages: []
+};
+
 const fetchMessages = async()=>{
 try{
     const lastMessageTime =state.messages.length > 0
