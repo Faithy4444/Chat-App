@@ -1,7 +1,12 @@
 import { renderMessage, renderMessages } from "./chat.mjs";
 
 //connecting to server
-const ws = new WebSocket("ws://localhost:4000");
+const wsUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1"
+  ? "ws://localhost:4000"
+  : "wss://faith-chatapp-websocket-backend.hosting.codeyourfuture.io";
+
+const ws = new WebSocket(wsUrl);
+
 
 ws.onopen = ()=>{
     console.log("connected to websocket server")
