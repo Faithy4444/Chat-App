@@ -1,4 +1,4 @@
-import { renderMessage, renderMessages } from "../frontend/chat.mjs";
+import { renderMessage, renderMessages } from "./frontend/chat.mjs";
 
 //connecting to server
 const wsUrl = location.hostname === "localhost" || location.hostname === "127.0.0.1"
