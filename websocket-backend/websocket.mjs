@@ -3,9 +3,8 @@ import http from "http";
 import pkg from "websocket";
 const { client, server: WebSocketServer } = pkg;
 
-// now you can use WebSocketServer and client as before
 
-import { addMessage, getMessages } from "./messages.mjs"
+import { addMessage, getMessages } from "../backend/messages.mjs"
 
 const app = express();
 const port = process.env.PORT || 4000;
