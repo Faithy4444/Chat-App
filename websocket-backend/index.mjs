@@ -22,7 +22,7 @@ webSocketServer.on("request", (request) => {
   clients.push(connection);
 
   // Send existing messages when client connects
-  connection.sendUTF(JSON.stringify(getMessages()));
+  connection.sendUTF(JSON.stringify({ type: "initialMessages", messages: getMessages() }));
 
   // Listen for new messages
   connection.on("message", (message) => {
