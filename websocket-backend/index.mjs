@@ -12,6 +12,10 @@ const port = process.env.PORT || 4000;
 const server = http.createServer(app);
 const webSocketServer = new WebSocketServer({ httpServer: server });
 
+app.get("/messages", (req, res) => {
+  res.json(getMessages());
+});
+
 //Keep track of connected clients
 let clients = [];
 
