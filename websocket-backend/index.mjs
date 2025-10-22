@@ -1,20 +1,20 @@
 import express from "express";
 import http from "http";
 import pkg from "websocket";
+import cors from "cors";
+
+
 const { server: WebSocketServer } = pkg;
 
 import { addMessage, getMessages, updateReaction } from "./messages.mjs";
 
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 4000;
 
 const server = http.createServer(app);
 const webSocketServer = new WebSocketServer({ httpServer: server });
-
-app.get("/messages", (req, res) => {
-  res.json(getMessages());
-});
 
 //Keep track of connected clients
 let clients = [];
@@ -60,6 +60,11 @@ if (data.type === "reaction") {
     clients = clients.filter((c) => c !== connection);
   });
 });
+
+app.get("/", (req, res) => {
+  res.json(getMessages()); 
+});
+
 
 server.listen(port, "0.0.0.0", () => {
   console.log(`WebSocket server running on port ${port}`);
