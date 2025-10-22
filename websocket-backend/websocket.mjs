@@ -3,7 +3,8 @@ import http from "http";
 import pkg from "websocket";
 const { server: WebSocketServer } = pkg;
 
-import { addMessage, getMessages } from "../backend/messages.mjs";
+import { addMessage, getMessages, updateReaction } from "./messages.mjs";
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -26,15 +27,27 @@ webSocketServer.on("request", (request) => {
   // Listen for new messages
   connection.on("message", (message) => {
     if (message.type === "utf8") {
-      const { name, text } = JSON.parse(message.utf8Data);
-      const msg = addMessage(name, text);
+      const data = JSON.parse(message.utf8Data);
 
-      //Broadcast to all connected clients
-      clients.forEach((client) => {
-        if (client.connected) {
-          client.sendUTF(JSON.stringify([msg]));
-        }
-      });
+if (data.type === "newMessage") {
+  const msg = addMessage(data.name, data.text);
+
+  // Broadcast new message to all clients
+  clients.forEach(client => {
+    if (client.connected) client.sendUTF(JSON.stringify({ type: "newMessage", message: msg }));
+  });
+}
+
+if (data.type === "reaction") {
+  const updatedMsg = updateReaction(data.messageId, data.reactionType);
+  if (updatedMsg) {
+    // Broadcast updated reaction to all clients
+    clients.forEach(client => {
+      if (client.connected) client.sendUTF(JSON.stringify({ type: "reaction", message: updatedMsg }));
+    });
+  }
+}
+
     }
   });
 

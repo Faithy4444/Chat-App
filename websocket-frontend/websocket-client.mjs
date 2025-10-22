@@ -22,12 +22,27 @@ ws.onerror = (err) => {
 
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
-  if (Array.isArray(data)) {
-    renderMessages(data);
-  } else {
-    renderMessage(data);
+
+  if (data.type === "initialMessages") {
+    renderMessages(data.messages);
+  } else if (data.type === "newMessage") {
+    renderMessage(data.message);
+  } else if (data.type === "reaction") {
+    const msgEl = document.querySelector(`[data-id='${data.message.id}']`);
+    if (msgEl) {
+      msgEl.querySelector(".like").textContent = `👍 ${data.message.likes}`;
+      msgEl.querySelector(".dislike").textContent = `👎 ${data.message.dislikes}`;
+    }
   }
 };
+
+export function sendReaction(messageId, type) {
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ type: "reaction", messageId, reactionType: type }));
+  } else {
+    console.warn("WebSocket not open — cannot send reaction");
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("messageForm");
@@ -49,9 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Check if the WebSocket is open before sending
     if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ name, text }));
-      messageInput.value = "";
-      console.warn("⚠️ WebSocket not open — message not sent");
-    }
+  ws.send(JSON.stringify({ type: "newMessage", name, text }));
+  messageInput.value = "";
+} else {
+  console.warn("WebSocket not open — message not sent");
+}
+
   });
 });
